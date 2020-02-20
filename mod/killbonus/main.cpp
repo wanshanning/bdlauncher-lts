@@ -57,13 +57,13 @@ static void handle_die(Mob &a, ActorDamageSource const &b) {
     ServerPlayer *sp = getSP(ent);
     if (sp) {
       auto vid = a.getEntityTypeId();
-      if (dbg_die) { sendText(sp, "you killed" + std::to_string(vid)); }
+      if (dbg_die) { sendText(sp, "You killed " + std::to_string(vid)); }
       auto it = bonus_mp.find(vid);
       if (it != bonus_mp.end()) {
         auto mi = it->second.first, mx = it->second.second;
         auto addm = rand() % (mx + 1 - mi) + mi;
         add_money(sp->getNameTag(), addm);
-        sendText(sp, "you get $" + std::to_string(addm) + " by killing");
+        sendText2(sp, "§cYou get $" + std::to_string(addm) + " by killing");
       }
     }
   }

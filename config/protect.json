@@ -1,5 +1,5 @@
 {
-    "NoEnderPick":true,
-    "NoExplodeBreak":true,
-    "NoFarm":true
+    "NoEnderPick": false,
+    "NoExplodeBreak": false,
+    "NoFarm": false
 }

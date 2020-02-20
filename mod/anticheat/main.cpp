@@ -47,7 +47,7 @@
 
 #include "main_split_1.h"
 #include "../base/base.h"
-#include "bear.command.h"
+#include "ac.command.h"
 #include "lang.h"
 
 static bool NOFMCBUG, NOPLAYERTPA;
@@ -63,7 +63,7 @@ using std::unordered_map;
 using std::unordered_set;
 
 const char meta[] __attribute__((used, section("meta"))) =
-    "name:bear\n"
+    "name:antichet\n"
     "version:20200216\n"
     "author:sysca11\n"
     "depend:base@20200121,command@20200121,gui@20200121\n";
@@ -75,7 +75,7 @@ extern "C" {
 BDL_EXPORT void mod_init(std::list<string> &modlist);
 }
 extern void load_helper(std::list<string> &modlist);
-LDBImpl ban_data("data_v2/bear");
+LDBImpl ban_data("data_v2/anticheat");
 bool isBanned(const string &name) {
   string val;
   auto succ = ban_data.Get(name, val);
@@ -377,7 +377,7 @@ static void _load_config() {
   banitems.clear();
   warnitems.clear();
   banword.clear();
-  std::ifstream ifs{"config/bear.json"};
+  std::ifstream ifs{"config/anticheat.json"};
   Json::Value value;
   Json::Reader reader;
   if (!reader.parse(ifs, value)) {

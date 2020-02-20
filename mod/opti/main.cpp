@@ -59,7 +59,7 @@ void load() {
   }
   // 1.13.1 26581604 1.13.2 26587812 1.14 0x9287ed8 0x78d6840
   RedStoneMUL = value["RedStoneMUL"].asInt(0);
-  /*float *pp   = (float *) (((uintptr_t) dlsym(NULL, "_ZN10LevelChunk4tickER11BlockSourceRK4Tick")) + 0x19b1698);
+  float *pp   = (float *) (((uintptr_t) dlsym(NULL, "_ZN10LevelChunk4tickER11BlockSourceRK4Tick")) + 0x19b1698);
   int newSpawnDist = value["pVal"].asInt(0);
   int hit          = -114514;
   for (int i = -5000; i < 10000; ++i) {
@@ -70,9 +70,10 @@ void load() {
         hit = -114514;
         break;
       }
-      hit = i;
+      //hit = i;
     }
   }
+  /*
   if (hit == -114514) {
     do_log("Warning!!!Broken patch dected.Wont Patch it!");
     return;
@@ -81,7 +82,8 @@ void load() {
   mprotect(
       (void *) ROUND_PAGE_DOWN((ulong) patch), (ROUND_PAGE_UP((ulong) patch) - ROUND_PAGE_DOWN((ulong) patch)),
       PROT_WRITE | PROT_READ | PROT_EXEC);
-  *pp = newSpawnDist;*/
+  *pp = newSpawnDist;
+  */
 }
 
 void mod_init(std::list<string> &modlist) {
