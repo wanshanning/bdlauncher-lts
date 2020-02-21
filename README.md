@@ -5,6 +5,14 @@ Only for BDS Linux<br>
 Telegram group: https://t.me/bdlauncher  
 QQ group: 955765957  
 
+# Docs
+
+https://github.com/thirteenc13/bdlauncher/wiki
+
+# Prebuilt binary
+
+https://github.com/thirteenc13/bdlauncher/actions
+
 # License
 MIT with additional conditions<br>
 If you want to redistribute software in a commercial manner,please read LICENSE carefully<br>
