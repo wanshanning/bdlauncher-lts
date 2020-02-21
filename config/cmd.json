@@ -1,42 +1,66 @@
-[{
-    "type": "timer",
-    "time": 5000,
-    "shift": 10,
-    "cmd": "say timer!"
-},
+[
+    {
+        "type":"timer",
+        "time":4800,"shift":0,
+        "cmd":"bc \"§7You are playing on a bdlauncher server\", bc \"§7Our telegram group: @bdlauncher\", bc \"§7It's a cool server\""
+    },
 
-{
-    "type": "join",
-    "cmd": "sched 10 %name% \"say §b $name$ joined this server\""
-},
+    {
+        "type":"join",
+        "cmd":"title %name% title §aWelcome to the server"
+    },
 
-{
-    "type": "form",
-    "text": "this is main menu",
-    "title": "Main menu",
-    "name": "root",
-    "buttons": [
-        ["kill me", "money rd %name% 10", "kill %name%"],
-        ["open submenu", "", "execute %name% ~ ~ ~ c sub1"],
-        ["buy sth", "money rd %name% 10", "give %name% dirt 10"],
-        ["sell dirt", "clear %name% dirt 0 9,clear %name% dirt 0 1", "money add %name% 1,tell %name% dirt is cheapppp"],
-        ["magic", "money rd %name% 10", "!money add %name% 1;money add %name% 20"]
-    ]
-},
+    {
+        "type":"form",
+        "text":"Use the clock to quick open the menu",
+        "title":"Main menu",
+        "name":"root",
+        "buttons":[
+			["Get a clock", "give %name% clock", ""],
+            ["Open land menu", "runas %name% c land", ""],
+			["Open money menu", "runas %name% c money", ""],
+			["Open teleport menu", "runas %name% c teleport", ""]
+	    ]
+    }, 
 
-{
-    "type": "form",
-    "text": "sub menu",
-    "title": "sub",
-    "name": "sub1",
-    "buttons": [
-        ["me", "", "say %name% 114514"],
-        ["back", "", "execute %name% ~ ~ ~ c root"]
-    ]
-},
-
-{
-    "type": "menuitem",
-    "itemid": 347
-}
+    {
+        "type":"form",   
+        "text":"",
+        "title":"Land menu",
+        "name":"land",
+        "buttons":[
+			["Query owner of the land", "runas %name% land query", ""],
+			["trust a player", "runas %name% land trustgui", ""],
+			["untrust a player", "runas %name% land untrustgui", ""],
+			["sell your land", "tell %name% Type /land sell to sell your land", ""]
+		]
+    },
+	
+    {
+        "type":"form",   
+        "text":"",
+        "title":"Money menu",
+        "name":"money",
+        "buttons":[
+			["Query your money", "runas %name% money query", ""],
+			["Transfer money to a player", "runas %name% money paygui", ""]
+		]
+    },
+	
+    {
+        "type":"form",   
+        "text":"If you want to add a home\nYou can type /home add [name]",
+        "title":"Teleport menu",
+        "name":"teleport",
+        "buttons":[
+			["Send a teleport request to a player", "runas %name% tpa gui", ""],
+			["Go home", "runas %name% home gui", ""],
+			["Server's warp", "runas %name% warp gui", ""]
+		]
+    },
+    
+    {
+        "type":"menuitem",
+        "itemid":347
+    }  
 ]

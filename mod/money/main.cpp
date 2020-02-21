@@ -106,13 +106,13 @@ static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
       add_money(a[1], atoi(a[2]));
       buf.write("§bAdded ");
       buf.write(a[2]);
-      buf.write("money for ");
+      buf.write(" money for ");
       buf.write(a[1]);
     } else {
       add_money(b.getName(), atoi(a[1]));
       buf.write("§bAdded ");
       buf.write(a[1]);
-      buf.write("money for ");
+      buf.write(" money for ");
       buf.write(b.getName());
     }
     outp.success(buf.getstr());
