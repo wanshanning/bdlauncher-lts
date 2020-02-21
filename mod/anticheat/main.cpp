@@ -44,11 +44,9 @@
 #include <minecraft/net/NetworkIdentifier.h>
 #include <minecraft/packet/MyPkt.h>
 #include <cmdhelper.h>
-
 #include "main_split_1.h"
 #include "../base/base.h"
 #include "ac.command.h"
-#include "lang.h"
 
 static bool NOFMCBUG, NOPLAYERTPA;
 
