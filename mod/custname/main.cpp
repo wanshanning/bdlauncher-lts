@@ -1,6 +1,7 @@
 #include <Loader.h>
 //#include <MC.h>
 #include "base.h"
+#include "cname.command.h"
 
 const char meta[] __attribute__((used, section("meta"))) =
     "name:custname\n"
@@ -27,24 +28,21 @@ THook(
 static void load() {
   names.Iter([](string_view k, string_view v) { name_map.emplace(k, v); });
 }
-static void oncmd(argVec &av, CommandOrigin const &co, CommandOutput &outp) {
-  if (av.size() != 2) {
-    outp.error("arg");
-    return;
-  }
+void cnamecmd::oncmd(mandatory<std::string> target, mandatory<std::string> name)
+{
   SPBuf<1024> buf;
-  for (decltype(av[1].size()) i = 0; i < av[1].size(); ++i) {
-    if (av[1][i] != '"')
-      ;
-    buf.buf[buf.ptr++] = av[1][i];
+  for (decltype(name.size()) i = 0; i < name.size(); ++i) {
+    if (name[i] != '"')
+    buf.buf[buf.ptr++] = name[i];
   }
-  name_map[string(av[0])] = buf.getstr();
-  names.Put(av[0], buf.get());
-  outp.success("okay");
+  name_map[string(target)] = buf.getstr();
+  names.Put(target, buf.get());
+  getOutput().success("Success");
 }
+
 void mod_init(std::list<string> &modlist) {
   do_log("Loaded " BDL_TAG "!");
   load();
-  register_cmd("cname", oncmd, "custom name", 1);
+  register_commands();
   load_helper(modlist);
 }
