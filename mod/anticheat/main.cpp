@@ -345,7 +345,7 @@ THook(unsigned long, _ZNK20InventoryTransaction11executeFullER6Playerb, void *_t
         async_log(
             "[ITEM] %s tries to use dangerous items(banned) %s %s\n", name.c_str(), j.getFromItem()->toString().c_str(),
             j.getToItem()->toString().c_str());
-        sendText(&player, BANNED_ITEM, POPUP);
+        sendText(&player, "§cBanned item!", POPUP);
         return 6;
       }
       /*

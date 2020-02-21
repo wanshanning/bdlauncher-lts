@@ -60,7 +60,7 @@ void load() {
   // 1.13.1 26581604 1.13.2 26587812 1.14 0x9287ed8 0x78d6840
   RedStoneMUL = value["RedStoneMUL"].asInt(0);
   float *pp   = (float *) (((uintptr_t) dlsym(NULL, "_ZN10LevelChunk4tickER11BlockSourceRK4Tick")) + 0x19b1698);
-  int newSpawnDist = value["pVal"].asInt(0);
+  // int newSpawnDist = value["pVal"].asInt(0);
   int hit          = -114514;
   for (int i = -5000; i < 10000; ++i) {
     if (pp[i] == 9216) {
