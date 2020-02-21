@@ -51,7 +51,7 @@
 static bool NOFMCBUG, NOPLAYERTPA;
 
 #include "log.hpp"
-//#include "network.hpp"
+// #include "network.hpp"
 #include "ChatSan.hpp"
 #include "hidechk.hpp"
 #include "invchk.hpp"
@@ -146,7 +146,7 @@ static bool hkc(ServerPlayer *b, string &c) {
 extern "C" {
 void _ZN14ServerInstance14onLevelCorruptEv(void *);
 }
-void ACCommand::crashme(mandatory<Crashme>) { _ZN14ServerInstance14onLevelCorruptEv(nullptr); }
+// void ACCommand::crashme(mandatory<Crashme>) { _ZN14ServerInstance14onLevelCorruptEv(nullptr); }
 void ACCommand::kickall(mandatory<Kickall>) {
   auto x = getSrvLevel()->getUsers();
   for (auto &i : *x) { runcmd("kick \"" + i->getNameTag() + "\""); }

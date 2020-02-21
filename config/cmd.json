@@ -17,9 +17,9 @@
         "name":"root",
         "buttons":[
 		    ["Get a clock", "give %name% clock", ""],
-            ["Open land menu", "runas %name% c land", ""],
-			["Open money menu", "runas %name% c money", ""],
-			["Open teleport menu", "runas %name% c teleport", ""]
+            ["Open land menu", "runas %name% menu land", ""],
+			["Open money menu", "runas %name% menu money", ""],
+			["Open teleport menu", "runas %name% menu teleport", ""]
 	    ]
     }, 
 

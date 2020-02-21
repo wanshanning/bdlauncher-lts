@@ -13,7 +13,7 @@ enum class Kick { kick };
 enum class Mute { mute };
 enum class Bangui { bangui };
 enum class Kickall { kickall };
-enum class Crashme { crashme };
+// enum class Crashme { crashme };
 struct ACCommand : CustomCommandContext {
 public:
   inline static alias_list aliases  = {"anticheat"};
@@ -28,7 +28,7 @@ public:
   void invchk(mandatory<Invchk> mode, mandatory<CommandSelector<Player>> target);
   void reload(mandatory<Reload> mode);
   void kickall(mandatory<Kickall> mode);
-  void crashme(mandatory<Crashme> mode);
+  // void crashme(mandatory<Crashme> mode);
   void kick(mandatory<Kick> mode, mandatory<std::string> target);
   void mute(mandatory<Mute> mode, mandatory<CommandSelector<Player>> target, mandatory<int> time);
   void bangui(mandatory<Bangui> mode);

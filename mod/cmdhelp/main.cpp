@@ -68,8 +68,15 @@ struct Oneshot {
 };
 static priority_queue<Oneshot> oneshot_timers;
 static CMD joinHook;
+static void load();
 static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   if (a.size() == 0) a.emplace_back("root");
+  if (a[0] == "reload" && (int) b.getPermissionsLevel() >= 1)
+  {
+    load();
+    outp.success("Configuration file reloaded");
+    return;
+  }
   auto hs = do_hash(a[0]);
   if (forms.count(hs)) {
     auto &fm         = forms[hs];
@@ -78,15 +85,15 @@ static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
       fm.sendTo(*sp);
       outp.success();
     } else {
-      outp.error("fucku");
+      outp.error("Console can not execute this command");
     }
   } else {
-    outp.error("cant find");
+    outp.error("Can't find this menu");
   }
 }
 static void join(ServerPlayer *sp) {
   string val;
-  if (db.Get(sp->getNameTag(), val)) { broadcastText(val); }
+  // if (db.Get(sp->getNameTag(), val)) { broadcastText(val); }
   joinHook.execute(sp->getNameTag(), false);
 }
 static void tick(int tk) {
@@ -210,7 +217,7 @@ static void oncmd_bc(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   broadcastText(a[0]);
   outp.success();
 }
-static void oncmd_jmsg(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
+/*static void oncmd_jmsg(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   ARGSZ(2)
   if (a[1] != "del")
     db.Put(a[0], a[1]);
@@ -218,13 +225,13 @@ static void oncmd_jmsg(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
     db.Del(a[0]);
   }
   outp.success();
-}
+}*/
 void mod_init(std::list<string> &modlist) {
   load();
-  register_cmd("c", oncmd, "open gui");
-  register_cmd("joinmsg", oncmd_jmsg, "joinmsg", 1);
+  register_cmd("menu", oncmd, "open gui");
+  // register_cmd("joinmsg", oncmd_jmsg, "joinmsg", 1);
   register_cmd("bc", oncmd_bc, "broadcast", 1);
-  register_cmd("reload_cmd", load, "reload cmds", 1);
+  // register_cmd("reload_cmd", load, "reload cmds", 1);
   register_cmd("sched", oncmd_sch, "schedule a delayed cmd", 1);
   register_cmd("runas", oncmd_runas, "run cmd as", 1);
   reg_player_join(join);
