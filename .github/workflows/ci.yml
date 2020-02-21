@@ -7,7 +7,6 @@ jobs:
     strategy:
       matrix:
         mode: [DEBUG, RELEASE]
-        lang: [EN, CN]
 
     runs-on: ubuntu-latest
     container: archlinuxrolling/base:latest
@@ -23,5 +22,5 @@ jobs:
     - name: Upload artifact dist-${{ matrix.mode }}-${{ matrix.lang }}
       uses: actions/upload-artifact@v1.0.0
       with:
-        name: dist-${{ matrix.mode }}-${{ matrix.lang }}
-        path: dist-${{ matrix.mode }}-${{ matrix.lang }}
+        name: dist-${{ matrix.mode }}
+        path: dist-${{ matrix.mode }}

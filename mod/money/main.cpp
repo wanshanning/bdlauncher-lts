@@ -16,7 +16,6 @@
 #include <minecraft/json.h>
 #include <fstream>
 #include "../gui/gui.h"
-#include "lang.h"
 #include <minecraft/core/access.h>
 
 const char meta[] __attribute__((used, section("meta"))) =
@@ -145,7 +144,7 @@ static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
     pl2 = a[1];
     mon = atoi(a[2]);
     if (mon <= 0 || mon > 50000) {
-      outp.error(M_PAY_STR);
+      outp.error("§bToo big or small money.Maximum is 50000.");
     } else {
       if (red_money(pl, mon)) {
         add_money(pl2, mon);

@@ -13,11 +13,10 @@ CLANG_FORMAT_WRAP=./scripts/clang_format.py
 
 HEADERS=$(shell find include -type f -print)
 
-LANG=CN
 BDLTAG=$(shell cat version)
 CFLAGS= -Os
-CFLAGS+= -fPIC -std=gnu17 -DLANG=$(LANG) -DBDL_TAG=\"$(BDLTAG)\"
-CXXFLAGS+= -fPIC -std=gnu++17 -DLANG=$(LANG) -DBDL_TAG=\"$(BDLTAG)\"
+CFLAGS+= -fPIC -std=gnu17 -DBDL_TAG=\"$(BDLTAG)\"
+CXXFLAGS+= -fPIC -std=gnu++17 -DBDL_TAG=\"$(BDLTAG)\"
 
 ifeq (1,$(RELEASE))
 	OBJ_SUFFIX=release

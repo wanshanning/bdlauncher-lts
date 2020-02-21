@@ -102,7 +102,7 @@ THook(
   auto succ = ban_data.Get(xuid, val);
   if (!succ) { ban_data.Put(xuid, pn); }
   if (isBanned(pn) || (succ && isBanned(val))) {
-    snh->disconnectClient(a, YOU_R_BANNED, false);
+    snh->disconnectClient(a, "§cYou're banned!", false);
     return nullptr;
   }
   return original(snh, a, b);
@@ -125,13 +125,13 @@ static bool is_muted(const string &name) {
 }
 static bool hkc(ServerPlayer *b, string &c) {
   if (c.size() > MAX_CHAT_SIZE) {
-    sendText(b, TLONGCHAT);
+    sendText(b, "§cToo long chat");
     return 0;
   }
   for (auto &i : banword) {
     if (c.find(i) != string::npos) {
       SPBuf<512> sb;
-      sb.write("Banned word: ");
+      sb.write("§cBanned word: ");
       sb.write(i);
       sendText(b, sb.get());
       return 0;
@@ -139,7 +139,7 @@ static bool hkc(ServerPlayer *b, string &c) {
   }
   auto &name = b->getNameTag();
   if (is_muted(name)) {
-    sendText(b, URMUTED);
+    sendText(b, "§cYou're muted");
     return 0;
   }
   async_log("[CHAT] %s: %s\n", name.c_str(), c.c_str());
@@ -196,7 +196,7 @@ static bool handle_u(GameMode *a0, ItemStack *a1, BlockPos const *a2, BlockPos c
     async_log(
         "[ITEM] %s tries to use prohibited items(banned) %s pos: %d %d %d\n", sn.c_str(), a1->toString().c_str(), a2->x,
         a2->y, a2->z);
-    sendText(a0->getPlayer(), BANNED_ITEM, JUKEBOX_POPUP);
+    sendText(a0->getPlayer(), "§cBanned item!", JUKEBOX_POPUP);
     return 0;
   }
   if (warnitems.has(a1->getId())) {
