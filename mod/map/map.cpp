@@ -51,13 +51,18 @@ static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   string datname         = string(a[0]);
   Player &pl             = *(Player *) b.getEntity();
   auto &xx               = pl.getCarriedItem().getUserData();
+  if(pl.getCarriedItem().getId() != 358)
+  {
+    outp.error("Please hold map_filled!");
+    return;
+  }
   MapItemSavedData &data = getMC()->getLevel()->getMapSavedData(xx);
   loaddata(datname.c_str());
   for (int y = 0; y < 128; ++y)
     for (int x = 0; x < 128; ++x) data.setPixel(datam[y * 128 + x], x, y);
   data.setLocked();
   data.save(*getMC()->getLevel()->getLevelStorage());
-  outp.success("okay!rejoin server to see new map");
+  outp.success("Success");
 }
 void mod_init(std::list<string> &modlist) {
   do_log("loaded! " BDL_TAG "");

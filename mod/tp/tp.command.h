@@ -9,7 +9,7 @@ class TPACommand : public CustomCommandContext {
 public:
   // inline static alias_list aliases  = {"tpa"};
   static constexpr auto cmd_name    = "tpa";
-  static constexpr auto description = "tpa";
+  static constexpr auto description = "teleport";
   static constexpr auto permission  = CommandPermissionLevel::NORMAL;
 
   TPACommand(CommandOrigin const &origin, CommandOutput &output) noexcept : CustomCommandContext(origin, output) {}

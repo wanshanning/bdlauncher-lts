@@ -325,9 +325,9 @@ static void oncmd_home(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   }
   if (a[0] == "ls") {
     home &myh = ply_homes[sp];
-    outp.addMessage("§b====Home list====");
+    outp.addMessage("§b==Home list==");
     for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) outp.addMessage(i->name);
-    outp.success("§b============");
+    outp.success("§b==Home list==");
   }
   if (a[0] == "gui") {
     home &myh = ply_homes[sp];
@@ -385,13 +385,13 @@ static void oncmd_warp(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
     return;
   }
   if (a[0] == "ls") {
-    outp.addMessage("§b====Warp list====");
+    outp.addMessage("§b==Warp list==");
     for (auto const &i : warp_list) { outp.addMessage(i); }
-    outp.success("§b===========");
+    outp.success("§b==Warp list==");
     return;
   }
   if (a[0] == "gui") {
-    auto sf = getForm("Home", "Please choose a home");
+    auto sf = getForm("Warp", "Please choose a warp");
     for (auto const &i : warp_list) {
       auto &hname = i;
       sf->addButton(hname);
