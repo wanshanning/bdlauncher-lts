@@ -18,6 +18,7 @@
 #include <minecraft/core/Minecraft.h>
 #include <minecraft/level/Level.h>
 #include "map.h"
+#include "map.command.h"
 
 const char meta[] __attribute__((used, section("meta"))) =
     "name:map\n"
@@ -46,14 +47,13 @@ static void loaddata(const char *fn) {
 extern "C" {
 Packet *_ZNK16MapItemSavedData17getFullDataPacketEv(MapItemSavedData *, char *);
 };
-static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
-  ARGSZ(1)
-  string datname         = string(a[0]);
-  Player &pl             = *(Player *) b.getEntity();
+void mapcommand::oncmd(mandatory<std::string> filename) {
+  string datname         = string(filename);
+  Player &pl             = *(Player *) getOrigin().getEntity();
   auto &xx               = pl.getCarriedItem().getUserData();
   if(pl.getCarriedItem().getId() != 358)
   {
-    outp.error("Please hold map_filled!");
+    CommandOutput().error("Please hold map_filled!");
     return;
   }
   MapItemSavedData &data = getMC()->getLevel()->getMapSavedData(xx);
@@ -62,10 +62,10 @@ static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
     for (int x = 0; x < 128; ++x) data.setPixel(datam[y * 128 + x], x, y);
   data.setLocked();
   data.save(*getMC()->getLevel()->getLevelStorage());
-  outp.success("Success");
+  CommandOutput().success("Success");
 }
 void mod_init(std::list<string> &modlist) {
   do_log("loaded! " BDL_TAG "");
-  register_cmd("map", oncmd, "CustomMap", 1);
+  register_commands();
   load_helper(modlist);
 }
