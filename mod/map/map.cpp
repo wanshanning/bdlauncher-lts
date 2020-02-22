@@ -53,7 +53,7 @@ void mapcommand::oncmd(mandatory<std::string> filename) {
   auto &xx               = pl.getCarriedItem().getUserData();
   if(pl.getCarriedItem().getId() != 358)
   {
-    CommandOutput().error("Please hold map_filled!");
+    getOutput().error("Please hold map_filled!");
     return;
   }
   MapItemSavedData &data = getMC()->getLevel()->getMapSavedData(xx);
@@ -62,7 +62,7 @@ void mapcommand::oncmd(mandatory<std::string> filename) {
     for (int x = 0; x < 128; ++x) data.setPixel(datam[y * 128 + x], x, y);
   data.setLocked();
   data.save(*getMC()->getLevel()->getLevelStorage());
-  CommandOutput().success("Success");
+  getOutput().success("Success");
 }
 void mod_init(std::list<string> &modlist) {
   do_log("loaded! " BDL_TAG "");
