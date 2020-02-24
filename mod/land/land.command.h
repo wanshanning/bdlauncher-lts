@@ -47,7 +47,7 @@ enum class Reload { reload };
 struct LDOCommand : CustomCommandContext {
 public:
   // inline static alias_list aliases  = {"ld"};
-  static constexpr auto cmd_name    = "land_op";
+  static constexpr auto cmd_name    = "landop";
   static constexpr auto description = "Land functions";
   static constexpr auto permission  = CommandPermissionLevel::OP;
 

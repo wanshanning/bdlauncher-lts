@@ -67,6 +67,7 @@ static void load() {
 
 void CdkCommand::reload(mandatory<Reload> cmd)
 {
+  if(int(getOrigin().getPermissionsLevel()) < 1) {getOutput().error("No permission"); return;}
   load();
   getOutput().success("Data loaded");
 }

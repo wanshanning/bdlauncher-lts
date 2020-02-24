@@ -400,7 +400,7 @@ static void _load_config() {
 }
 void ACCommand::reload(mandatory<Reload>) {
   _load_config();
-  getOutput().success();
+  getOutput().success("Reloaded");
 }
 
 timeq<6, (int) (CLOCKS_PER_SEC * 0.1)> fastdq;
