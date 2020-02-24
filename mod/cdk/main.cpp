@@ -3,6 +3,7 @@
 #include "base.h"
 #include <fstream>
 #include <cstdarg>
+#include "cdk.command.h"
 
 const char meta[] __attribute__((used, section("meta"))) =
     "name:cdk\n"
@@ -36,20 +37,21 @@ static void async_log(const char *fmt, ...) {
 }
 static void save();
 unordered_map<string, string> cdks;
-static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
-  ARGSZ(1)
-  string cdk = string(a[0]);
+
+void CdkCommand::usecmd(mandatory<Use> cmd, mandatory<std::string> cdk)
+{
   if (!cdks.count(cdk)) {
-    outp.error("Invalid cdk");
+    getOutput().error("Invalid cdk");
     return;
   }
   auto run = cdks[cdk];
   cdks.erase(cdk);
-  async_log("[CDK] %s uses CDK %s\n", b.getName().c_str(), cdk.c_str());
-  execute_cmdchain(run, b.getName(), false);
+  async_log("[CDK] %s uses CDK %s\n", getOrigin().getName().c_str(), cdk.c_str());
+  execute_cmdchain(run, getOrigin().getName(), false);
   save();
-  outp.success("§bYou used cdk: " + cdk);
+  getOutput().success("§bYou used cdk: " + cdk);
 }
+
 static void load() {
   cdks.clear();
   std::ifstream ifs{"config/cdk.json"};
@@ -62,6 +64,13 @@ static void load() {
   }
   for (auto it = value.begin(); it != value.end(); it++) cdks.emplace(it.key().asString(""), it->asString(""));
 }
+
+void CdkCommand::reload(mandatory<Reload> cmd)
+{
+  load();
+  getOutput().success("Data loaded");
+}
+
 static void save() {
   Json::Value value{Json::ValueType::objectValue};
   for (auto &i : cdks) value[i.first] = {i.second};
@@ -72,8 +81,7 @@ static void save() {
 void mod_init(std::list<string> &modlist) {
   initlog();
   load();
-  register_cmd("cdk", oncmd, "use a cdk");
-  register_cmd("reload_cdk", load, "reload cdks", 1);
+  register_commands();
   do_log("loaded! V2019-12-11");
   load_helper(modlist);
 }
