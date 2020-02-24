@@ -174,25 +174,35 @@ static void initTPGUI() {
   TPGUI.cb = [](ServerPlayer *sp, string_view sv, int idx) { sendTPChoose(sp, idx); };
 }
 static unordered_map<string, string> player_target;
-void TPACommand::invoke(mandatory<TPCMD> mode, optional<string> target) {
-  if (!CanTP) {
-    getOutput().error("Teleport not enabled on this server!");
-    return;
+
+void TPACommand::CANCEL(mandatory<Cancel> cmd)
+{
+  string name = getOrigin().getName();
+  if (player_target.count(name)) {
+    auto &nm = player_target[name];
+    if (tpmap.count(nm) && tpmap[nm].name == name) {
+      tpmap.erase(nm);
+      getOutput().success("§bCancelled");
+    }
+  } else
+  {
+    getOutput().error("No teleport request");
   }
+}
+
+void TPACommand::AC(mandatory<Ac> cmd)
+{
   auto sp = getSP(getOrigin().getEntity());
-  if (!sp) return;
-  auto &nam = sp->getNameTag();
-  switch (mode) {
-  case TPCMD::ac: {
-    if (tpmap.count(nam) == 0) return;
-    tpreq &req = tpmap[nam];
+  string name = getOrigin().getName();
+  if (tpmap.count(name) == 0) return;
+    tpreq &req = tpmap[name];
     getOutput().success("§bYou have accepted the send request from the other party");
     player_target.erase(req.name);
     auto dst = getplayer_byname(req.name);
     if (dst) {
       SPBuf sb;
       sb.write("§b ");
-      sb.write(nam);
+      sb.write(name);
       sb.write(" accepted the transmission request");
       sendText(dst, sb);
       if (req.dir == 0) {
@@ -202,81 +212,95 @@ void TPACommand::invoke(mandatory<TPCMD> mode, optional<string> target) {
         TeleportA(*dst, sp->getPos(), {sp->getDimensionId()});
       }
     }
-    tpmap.erase(nam);
-  } break;
-  case TPCMD::de: {
-    if (tpmap.count(nam) == 0) return;
-    tpreq &req = tpmap[nam];
+    tpmap.erase(name);
+}
+
+void TPACommand::DE(mandatory<De> cmd)
+{
+  string name = getOrigin().getName();
+  if (tpmap.count(name) == 0) return;
+    tpreq &req = tpmap[name];
     getOutput().success("§bYou have rejected the send request");
     player_target.erase(req.name);
     auto dst = getplayer_byname(req.name);
     if (dst) {
       SPBuf sb;
       sb.write("§b ");
-      sb.write(nam);
+      sb.write(name);
       sb.write(" rejected the transmission request");
       sendText(dst, sb);
     }
-    tpmap.erase(nam);
-  } break;
-  case TPCMD::cancel: {
-    if (player_target.count(nam)) {
-      auto &nm = player_target[nam];
-      if (tpmap.count(nm) && tpmap[nm].name == nam) {
-        tpmap.erase(nm);
-        getOutput().success("cancelled");
-      }
-    }
-  } break;
-  case TPCMD::gui: {
-    SendTPGUI(sp);
-    getOutput().success();
-  } break;
-  case TPCMD::f: {
-    auto dst = getplayer_byname2(target);
-    if (!dst) {
-      getOutput().error("target not found!");
-      return;
-    }
-    auto &dnm = dst->getNameTag();
-    if (tpmap.count(dnm)) {
-      getOutput().error("A request of your target is pending.");
-      return;
-    }
-    if (player_target.count(dnm)) {
-      getOutput().error("You have already initiated the request");
-      return;
-    }
-    player_target[nam] = dnm;
-    tpmap[dnm]         = {0, nam, clock()};
-    getOutput().success("§bYou sent a teleport request to the target player");
-    sendTPForm(nam, 0, (ServerPlayer *) dst);
-    return;
-  }
-  case TPCMD::t: {
-    auto dst = getplayer_byname2(target);
-    if (!dst) {
-      getOutput().error("target not found!");
-      return;
-    }
-    auto &dnm = dst->getNameTag();
-    if (tpmap.count(dnm)) {
-      getOutput().error("A request of your target is pending.");
-      return;
-    }
-    if (player_target.count(dnm)) {
-      getOutput().error("You have already initiated the request");
-      return;
-    }
-    player_target[nam] = dnm;
-    tpmap[dnm]         = {1, nam, clock()};
-    getOutput().success("§bYou sent a teleport request to the target player");
-    sendTPForm(nam, 1, (ServerPlayer *) dst);
-    return;
-  }
-  default: break;
-  }
+    tpmap.erase(name);
 }
+
+void TPACommand::GUI(mandatory<Gui> cmd)
+{
+  SendTPGUI(getSP(getOrigin().getEntity()));
+  getOutput().success();
+}
+
+void TPACommand::CMDT(mandatory<CmdT> cmd, mandatory<std::string> target)
+{
+if (!CanTP) {
+    getOutput().error("Teleport not enabled on this server!");
+    return;
+  }
+  auto sp = getSP(getOrigin().getEntity());
+  if (!sp) return;
+
+  string name = getOrigin().getName();
+  auto dst = getplayer_byname2(target);
+    if (!dst) {
+      getOutput().error("target not found!");
+      return;
+    }
+    auto &dnm = dst->getNameTag();
+    if (tpmap.count(dnm)) {
+      getOutput().error("A request of your target is pending.");
+      return;
+    }
+    if (player_target.count(dnm)) {
+      getOutput().error("You have already initiated the request");
+      return;
+    }
+    player_target[name] = dnm;
+    tpmap[dnm]         = {1, name, clock()};
+    getOutput().success("§bYou sent a teleport request to the target player");
+    sendTPForm(name, 1, (ServerPlayer *) dst);
+    return;
+}
+
+void TPACommand::CMDF(mandatory<CmdF> cmd, mandatory<std::string> target)
+{
+  if (!CanTP) {
+    getOutput().error("Teleport not enabled on this server!");
+    return;
+  }
+  auto sp = getSP(getOrigin().getEntity());
+  if (!sp) return;
+
+  string name = getOrigin().getName();
+  auto dst = getplayer_byname2(target);
+    if (!dst) {
+      getOutput().error("target not found!");
+      return;
+    }
+    auto &dnm = dst->getNameTag();
+    if (tpmap.count(dnm)) {
+      getOutput().error("A request of your target is pending.");
+      return;
+    }
+    if (player_target.count(dnm)) {
+      getOutput().error("You have already initiated the request");
+      return;
+    }
+    player_target[name] = dnm;
+    tpmap[dnm]         = {0, name, clock()};
+    getOutput().success("§bYou sent a teleport request to the target player");
+    sendTPForm(name, 0, (ServerPlayer *) dst);
+    return;
+} 
+
 static void oncmd_home(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   if (!CanHome) {
     outp.error("Home not enabled on this server!");
