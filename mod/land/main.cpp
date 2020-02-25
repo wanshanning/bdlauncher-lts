@@ -69,19 +69,19 @@ static void loadcfg() {
   land_tip    = value["land_tip"].asBool(land_tip);
   if (getenv("NO_LTIP")) land_tip = false;
 }
-void LDCommand::exit(mandatory<Exit> mode) {
+void LDCommand::exit(mandatory<Exit> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   choose_state.defe(sp);
   getOutput().success("§bExit selection mode, please input /land buy");
 }
-void LDCommand::AB_(mandatory<AB> mode) {
+void LDCommand::AB_(mandatory<AB> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
-  choose_state[sp] = (mode == AB::b) + 1;
+  choose_state[sp] = (cmd == AB::b) + 1;
   getOutput().success("§bEnter selection mode, please click on the ground to select point");
 }
-void LDCommand::query(mandatory<Query> mode) {
+void LDCommand::query(mandatory<LandQuery> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   auto &pos = sp->getPos();
@@ -96,7 +96,7 @@ void LDCommand::query(mandatory<Query> mode) {
     return;
   }
 }
-void LDCommand::buy(mandatory<Buy> mode) {
+void LDCommand::buy(mandatory<Buy> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   SPBuf sb;
@@ -148,7 +148,7 @@ void LDCommand::buy(mandatory<Buy> mode) {
   addLand((x) ^ 0x80000000, (dx) ^ 0x80000000, (z) ^ 0x80000000, (dz) ^ 0x80000000, dim, nm);
   getOutput().success("§bSuccessful land purchase");
 }
-void LDCommand::sell(mandatory<Sell> mode) {
+void LDCommand::sell(mandatory<Sell> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   auto op   = sp->getPlayerPermissionLevel() > 1;
@@ -167,7 +167,7 @@ void LDCommand::sell(mandatory<Sell> mode) {
   }
 }
 
-void LDCommand::trust(mandatory<Trust> mode, mandatory<std::string> target) {
+void LDCommand::trust(mandatory<Trust> cmd, mandatory<std::string> target) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   auto op   = sp->getPlayerPermissionLevel() > 1;
@@ -189,7 +189,7 @@ void LDCommand::trust(mandatory<Trust> mode, mandatory<std::string> target) {
     return;
   }
 }
-void LDCommand::untrust(mandatory<Untrust> mode, mandatory<std::string> target) {
+void LDCommand::untrust(mandatory<Untrust> cmd, mandatory<std::string> target) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   auto op   = sp->getPlayerPermissionLevel() > 1;
@@ -211,7 +211,7 @@ void LDCommand::untrust(mandatory<Untrust> mode, mandatory<std::string> target) 
     return;
   }
 }
-void LDCommand::perm(mandatory<Perm> mode, mandatory<int> perm) {
+void LDCommand::perm(mandatory<Perm> cmd, mandatory<int> perm) {
   auto sp = getSP(getOrigin().getEntity());
   if (!sp) return;
   auto op   = sp->getPlayerPermissionLevel() > 1;
@@ -234,7 +234,7 @@ void LDCommand::perm(mandatory<Perm> mode, mandatory<int> perm) {
     return;
   }
 }
-void LDCommand::give(mandatory<Give>, mandatory<CommandSelector<Player>> target) {
+void LDCommand::give(mandatory<Give> cmd, mandatory<CommandSelector<Player>> target) {
   auto results = target.results(getOrigin());
   if (!Command::checkHasTargets(results, getOutput())) return;
   auto dst = getSP(*results.get());
@@ -256,7 +256,7 @@ void LDCommand::give(mandatory<Give>, mandatory<CommandSelector<Player>> target)
     }
   }
 }
-void LDCommand::trustgui(mandatory<Trustgui>) {
+void LDCommand::trustgui(mandatory<Trustgui> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (sp) {
     gui_ChoosePlayer(sp, "Choose players to trust", "Trust", [](ServerPlayer *xx, string_view dest) {
@@ -271,7 +271,7 @@ void LDCommand::trustgui(mandatory<Trustgui>) {
     getOutput().error("Error");
   }
 }
-void LDCommand::untrustgui(mandatory<Untrustgui>) {
+void LDCommand::untrustgui(mandatory<Untrustgui> cmd) {
   auto sp = getSP(getOrigin().getEntity());
   if (sp) {
     auto &pos = sp->getPos();
@@ -309,7 +309,7 @@ void LDCommand::untrustgui(mandatory<Untrustgui>) {
     }
   }
 }
-void LDOCommand::dumpall(mandatory<Dumpall> mode) {
+void LDOCommand::dumpall(mandatory<Dumpall> cmd) {
   iterLands_const([&](const DataLand &dl) {
     char buf[1000];
     snprintf(
@@ -323,11 +323,11 @@ void LDOCommand::forceperm(mandatory<Forceperm>, mandatory<int> newperm) {
   iterLands([newperm](DataLand &dl) { dl.perm = (LandPerm) newperm; });
   getOutput().success("okay");
 }
-void LDOCommand::fix(mandatory<Fix>) {
+void LDOCommand::fix(mandatory<Fix> cmd) {
   db.Del("land_fixed_v3");
   getOutput().success("scheduled data fix at next server start");
 }
-void LDOCommand::reload(mandatory<Reload>) {
+void LDOCommand::reload(mandatory<LandReload> cmd) {
   loadcfg();
   getOutput().success();
 }

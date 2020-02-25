@@ -26,16 +26,16 @@ public:
   operator AB() const noexcept { return value; }
 };
 
-template <> class BDL::CustomCommand::CommandParameterProxy<Query> {
-  Query value;
+template <> class BDL::CustomCommand::CommandParameterProxy<LandQuery> {
+  LandQuery value;
 
 public:
-  static auto fetch_tid() { return type_id<CommandRegistry, Query>(); }
+  static auto fetch_tid() { return type_id<CommandRegistry, LandQuery>(); }
   static constexpr auto parser    = &CommandRegistry::fake_parse;
   static constexpr auto type      = CommandParameterDataType::NORMAL;
-  static constexpr auto enum_name = "Query";
+  static constexpr auto enum_name = "LandQuery";
 
-  operator Query() const noexcept { return value; }
+  operator LandQuery() const noexcept { return value; }
 };
 
 template <> class BDL::CustomCommand::CommandParameterProxy<Buy> {
@@ -170,140 +170,140 @@ public:
   operator Fix() const noexcept { return value; }
 };
 
-template <> class BDL::CustomCommand::CommandParameterProxy<Reload> {
-  Reload value;
+template <> class BDL::CustomCommand::CommandParameterProxy<LandReload> {
+  LandReload value;
 
 public:
-  static auto fetch_tid() { return type_id<CommandRegistry, Reload>(); }
+  static auto fetch_tid() { return type_id<CommandRegistry, LandReload>(); }
   static constexpr auto parser    = &CommandRegistry::fake_parse;
   static constexpr auto type      = CommandParameterDataType::NORMAL;
-  static constexpr auto enum_name = "Reload";
+  static constexpr auto enum_name = "LandReload";
 
-  operator Reload() const noexcept { return value; }
+  operator LandReload() const noexcept { return value; }
 };
 
 struct LDCommand_0 : Command {
-  CommandParameterProxy<Exit> mode;
+  CommandParameterProxy<Exit> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.exit(mode);
+    context.exit(cmd);
   }
 };
 
 struct LDCommand_1 : Command {
-  CommandParameterProxy<AB> mode;
+  CommandParameterProxy<AB> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.AB_(mode);
+    context.AB_(cmd);
   }
 };
 
 struct LDCommand_2 : Command {
-  CommandParameterProxy<Query> mode;
+  CommandParameterProxy<LandQuery> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.query(mode);
+    context.query(cmd);
   }
 };
 
 struct LDCommand_3 : Command {
-  CommandParameterProxy<Buy> mode;
+  CommandParameterProxy<Buy> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.buy(mode);
+    context.buy(cmd);
   }
 };
 
 struct LDCommand_4 : Command {
-  CommandParameterProxy<Sell> mode;
+  CommandParameterProxy<Sell> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.sell(mode);
+    context.sell(cmd);
   }
 };
 
 struct LDCommand_5 : Command {
-  CommandParameterProxy<Trust> mode;
+  CommandParameterProxy<Trust> cmd;
   CommandParameterProxy<std::string> target;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.trust(mode, target);
+    context.trust(cmd, target);
   }
 };
 
 struct LDCommand_6 : Command {
-  CommandParameterProxy<Untrust> mode;
+  CommandParameterProxy<Untrust> cmd;
   CommandParameterProxy<std::string> target;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.untrust(mode, target);
+    context.untrust(cmd, target);
   }
 };
 
 struct LDCommand_7 : Command {
-  CommandParameterProxy<Trustgui> mode;
+  CommandParameterProxy<Trustgui> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.trustgui(mode);
+    context.trustgui(cmd);
   }
 };
 
 struct LDCommand_8 : Command {
-  CommandParameterProxy<Untrustgui> mode;
+  CommandParameterProxy<Untrustgui> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.untrustgui(mode);
+    context.untrustgui(cmd);
   }
 };
 
 struct LDCommand_9 : Command {
-  CommandParameterProxy<Perm> mode;
+  CommandParameterProxy<Perm> cmd;
   CommandParameterProxy<int> perm;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.perm(mode, perm);
+    context.perm(cmd, perm);
   }
 };
 
 struct LDCommand_10 : Command {
-  CommandParameterProxy<Give> mode;
+  CommandParameterProxy<Give> cmd;
   CommandParameterProxy<CommandSelector<Player>> target;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
-    context.give(mode, target);
+    context.give(cmd, target);
   }
 };
 
 struct LDOCommand_0 : Command {
-  CommandParameterProxy<Fix> mode;
+  CommandParameterProxy<Fix> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDOCommand context{origin, output};
-    context.fix(mode);
+    context.fix(cmd);
   }
 };
 
 struct LDOCommand_1 : Command {
-  CommandParameterProxy<Forceperm> mode;
+  CommandParameterProxy<Forceperm> cmd;
   CommandParameterProxy<int> perm;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDOCommand context{origin, output};
-    context.forceperm(mode, perm);
+    context.forceperm(cmd, perm);
   }
 };
 
 struct LDOCommand_2 : Command {
-  CommandParameterProxy<Dumpall> mode;
+  CommandParameterProxy<Dumpall> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDOCommand context{origin, output};
-    context.dumpall(mode);
+    context.dumpall(cmd);
   }
 };
 
 struct LDOCommand_3 : Command {
-  CommandParameterProxy<Reload> mode;
+  CommandParameterProxy<LandReload> cmd;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDOCommand context{origin, output};
-    context.reload(mode);
+    context.reload(cmd);
   }
 };
 
@@ -319,8 +319,8 @@ void register_commands() {
     item.addValue("b", AB::b);
   }
   {
-    auto &item = instance.registerEnum<Query>();
-    item.addValue("query", Query::query);
+    auto &item = instance.registerEnum<LandQuery>();
+    item.addValue("query", LandQuery::query);
   }
   {
     auto &item = instance.registerEnum<Buy>();
@@ -367,57 +367,57 @@ void register_commands() {
     item.addValue("fix", Fix::fix);
   }
   {
-    auto &item = instance.registerEnum<Reload>();
-    item.addValue("reload", Reload::reload);
+    auto &item = instance.registerEnum<LandReload>();
+    item.addValue("reload", LandReload::reload);
   }
   {
     auto &cmd = instance.registerCommand<LDCommand>();
     {
       auto &ovl = cmd.registerOverload<LDCommand_0>();
-      ovl.addParameter<Exit>("mode", false, offsetof(LDCommand_0, mode));
+      ovl.addParameter<Exit>("cmd", false, offsetof(LDCommand_0, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_1>();
-      ovl.addParameter<AB>("mode", false, offsetof(LDCommand_1, mode));
+      ovl.addParameter<AB>("cmd", false, offsetof(LDCommand_1, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_2>();
-      ovl.addParameter<Query>("mode", false, offsetof(LDCommand_2, mode));
+      ovl.addParameter<LandQuery>("cmd", false, offsetof(LDCommand_2, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_3>();
-      ovl.addParameter<Buy>("mode", false, offsetof(LDCommand_3, mode));
+      ovl.addParameter<Buy>("cmd", false, offsetof(LDCommand_3, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_4>();
-      ovl.addParameter<Sell>("mode", false, offsetof(LDCommand_4, mode));
+      ovl.addParameter<Sell>("cmd", false, offsetof(LDCommand_4, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_5>();
-      ovl.addParameter<Trust>("mode", false, offsetof(LDCommand_5, mode));
+      ovl.addParameter<Trust>("cmd", false, offsetof(LDCommand_5, cmd));
       ovl.addParameter<std::string>("target", false, offsetof(LDCommand_5, target));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_6>();
-      ovl.addParameter<Untrust>("mode", false, offsetof(LDCommand_6, mode));
+      ovl.addParameter<Untrust>("cmd", false, offsetof(LDCommand_6, cmd));
       ovl.addParameter<std::string>("target", false, offsetof(LDCommand_6, target));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_7>();
-      ovl.addParameter<Trustgui>("mode", false, offsetof(LDCommand_7, mode));
+      ovl.addParameter<Trustgui>("cmd", false, offsetof(LDCommand_7, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_8>();
-      ovl.addParameter<Untrustgui>("mode", false, offsetof(LDCommand_8, mode));
+      ovl.addParameter<Untrustgui>("cmd", false, offsetof(LDCommand_8, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_9>();
-      ovl.addParameter<Perm>("mode", false, offsetof(LDCommand_9, mode));
+      ovl.addParameter<Perm>("cmd", false, offsetof(LDCommand_9, cmd));
       ovl.addParameter<int>("perm", false, offsetof(LDCommand_9, perm));
     }
     {
       auto &ovl = cmd.registerOverload<LDCommand_10>();
-      ovl.addParameter<Give>("mode", false, offsetof(LDCommand_10, mode));
+      ovl.addParameter<Give>("cmd", false, offsetof(LDCommand_10, cmd));
       ovl.addParameter<CommandSelector<Player>>("target", false, offsetof(LDCommand_10, target));
     }
   }
@@ -425,20 +425,20 @@ void register_commands() {
     auto &cmd = instance.registerCommand<LDOCommand>();
     {
       auto &ovl = cmd.registerOverload<LDOCommand_0>();
-      ovl.addParameter<Fix>("mode", false, offsetof(LDOCommand_0, mode));
+      ovl.addParameter<Fix>("cmd", false, offsetof(LDOCommand_0, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDOCommand_1>();
-      ovl.addParameter<Forceperm>("mode", false, offsetof(LDOCommand_1, mode));
+      ovl.addParameter<Forceperm>("cmd", false, offsetof(LDOCommand_1, cmd));
       ovl.addParameter<int>("perm", false, offsetof(LDOCommand_1, perm));
     }
     {
       auto &ovl = cmd.registerOverload<LDOCommand_2>();
-      ovl.addParameter<Dumpall>("mode", false, offsetof(LDOCommand_2, mode));
+      ovl.addParameter<Dumpall>("cmd", false, offsetof(LDOCommand_2, cmd));
     }
     {
       auto &ovl = cmd.registerOverload<LDOCommand_3>();
-      ovl.addParameter<Reload>("mode", false, offsetof(LDOCommand_3, mode));
+      ovl.addParameter<LandReload>("cmd", false, offsetof(LDOCommand_3, cmd));
     }
   }
 }
