@@ -1,5 +1,4 @@
 #include <Loader.h>
-//#include <MC.h>
 #include "base.h"
 #include <minecraft/json.h>
 #include <fstream>

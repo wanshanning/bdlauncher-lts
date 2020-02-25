@@ -14,7 +14,6 @@
 #include <minecraft/json.h>
 #include <cmdhelper.h>
 #include <Loader.h>
-//#include <MC.h>
 #include <minecraft/core/getSP.h>
 #include <minecraft/actor/Player.h>
 

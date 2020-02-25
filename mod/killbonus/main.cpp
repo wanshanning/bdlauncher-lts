@@ -6,7 +6,6 @@
 #include <minecraft/actor/Player.h>
 #include <minecraft/actor/ActorDamageSource.h>
 #include <Loader.h>
-//#include <MC.h>
 #include <cmdhelper.h>
 #include <minecraft/json.h>
 

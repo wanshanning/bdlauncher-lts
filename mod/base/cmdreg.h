@@ -2,7 +2,6 @@
 
 #include <string>
 #include <string_view>
-//#include <MC.h>
 #include "minecraft/commands/CommandOrigin.h"
 #include "minecraft/commands/CommandOutput.h"
 #include "stl.hpp"

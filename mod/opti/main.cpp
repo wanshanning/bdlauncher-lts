@@ -1,7 +1,6 @@
 #include "myhook.h"
 #include <list>
 #include <Loader.h>
-//#include <MC.h>
 #include <fstream>
 #include <global.h>
 #include <logger.h>

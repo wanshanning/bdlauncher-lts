@@ -3,7 +3,6 @@
 #include <unordered_map>
 #include <vector>
 #include <Loader.h>
-//#include <MC.h>
 #include <unistd.h>
 #include <cstdarg>
 #include "bossbar.command.h"

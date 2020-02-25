@@ -8,7 +8,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-//#include <MC.h>
 #include <unistd.h>
 #include <cstdarg>
 #include <fstream>

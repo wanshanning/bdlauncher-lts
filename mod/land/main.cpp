@@ -22,7 +22,6 @@
 #include <minecraft/json.h>
 #include <Loader.h>
 #include <cmdhelper.h>
-//#include <MC.h>
 
 #include "../gui/gui.h"
 #include "base.h"

@@ -1,5 +1,4 @@
 #pragma once
-//#include <MC.h>
 #include <string>
 #include <bdlexport.h>
 class ItemStack;

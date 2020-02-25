@@ -1,7 +1,6 @@
 #include <string>
 
 #include <Loader.h>
-//#include <MC.h>
 #include <minecraft/core/getSP.h>
 #include <minecraft/actor/Player.h>
 #include <minecraft/packet/MyPkt.h>

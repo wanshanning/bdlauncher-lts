@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdarg.h>
-//#include <MC.h>
 #include <global.h>
 #include <bdlexport.h>
 #include <cstdlib>
