@@ -397,7 +397,7 @@ static void _load_config() {
     if (!banword.full()) banword.push_back(i.asString(""));
   MAX_CHAT_SIZE = value["MAX_CHAT_LEN"].asInt(1000);
 }
-void ACCommand::reload(mandatory<Reload>) {
+void ACCommand::reload(mandatory<AcReload>) {
   _load_config();
   getOutput().success("Reloaded");
 }

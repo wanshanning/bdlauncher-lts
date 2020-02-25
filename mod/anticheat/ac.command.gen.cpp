@@ -38,16 +38,16 @@ public:
   operator Invchk() const noexcept { return value; }
 };
 
-template <> class BDL::CustomCommand::CommandParameterProxy<Reload> {
-  Reload value;
+template <> class BDL::CustomCommand::CommandParameterProxy<AcReload> {
+  AcReload value;
 
 public:
-  static auto fetch_tid() { return type_id<CommandRegistry, Reload>(); }
+  static auto fetch_tid() { return type_id<CommandRegistry, AcReload>(); }
   static constexpr auto parser    = &CommandRegistry::fake_parse;
   static constexpr auto type      = CommandParameterDataType::NORMAL;
-  static constexpr auto enum_name = "Reload";
+  static constexpr auto enum_name = "AcReload";
 
-  operator Reload() const noexcept { return value; }
+  operator AcReload() const noexcept { return value; }
 };
 
 template <> class BDL::CustomCommand::CommandParameterProxy<Kick> {
@@ -127,7 +127,7 @@ struct ACCommand_2 : Command {
 };
 
 struct ACCommand_3 : Command {
-  CommandParameterProxy<Reload> mode;
+  CommandParameterProxy<AcReload> mode;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     ACCommand context{origin, output};
     context.reload(mode);
@@ -184,8 +184,8 @@ void register_commands() {
     item.addValue("invchk", Invchk::invchk);
   }
   {
-    auto &item = instance.registerEnum<Reload>();
-    item.addValue("reload", Reload::reload);
+    auto &item = instance.registerEnum<AcReload>();
+    item.addValue("reload", AcReload::reload);
   }
   {
     auto &item = instance.registerEnum<Kick>();
@@ -223,7 +223,7 @@ void register_commands() {
     }
     {
       auto &ovl = cmd.registerOverload<ACCommand_3>();
-      ovl.addParameter<Reload>("mode", false, offsetof(ACCommand_3, mode));
+      ovl.addParameter<AcReload>("mode", false, offsetof(ACCommand_3, mode));
     }
     {
       auto &ovl = cmd.registerOverload<ACCommand_4>();

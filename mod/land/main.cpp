@@ -329,7 +329,7 @@ void LDOCommand::fix(mandatory<Fix> cmd) {
 }
 void LDOCommand::reload(mandatory<LandReload> cmd) {
   loadcfg();
-  getOutput().success();
+  getOutput().success("Reloaded");
 }
 
 static void NoticePerm(FastLand *fl, ServerPlayer *sp) {
