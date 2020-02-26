@@ -1,24 +1,29 @@
-# bdlauncher
-A flexible , simple and easy-to-install third-party BedrockServer launcher with mods support (1.14)<br>
-Only for BDS Linux<br>
+# bdlauncher-life
+
+Bedrock server launcher with plugin support  
+This project has nothing to do with mojang and Microsoft  
+Bedrock server 1.14 is currently supported  
+bdlauncher-life is a branch of [bdlauncher](https://github.com/BDLDev/bdlauncher)
+
+## Community
 
 Telegram group: https://t.me/bdlauncher  
 QQ group: 955765957  
 
-# Docs
+## Docs
 
-https://github.com/thirteenc13/bdlauncher/wiki
+[Github Wiki](https://github.com/thirteenc13/bdlauncher/wiki)
 
-# Prebuilt binary
+## Prebuilt binary
 
-https://github.com/thirteenc13/bdlauncher/actions
+[Github Action](https://github.com/thirteenc13/bdlauncher/actions)
 
-# License
-MIT with additional conditions<br>
-If you want to redistribute software in a commercial manner,please read LICENSE carefully<br>
-商用用途请仔细阅读LICENSE
+## License
+MIT with additional conditions   
+If you want to redistribute software in a commercial manner, please read LICENSE carefully   
+如果你要将本项目用于商业用途，请仔细阅读LICENSE。
 
-# Credits
+## Credits
 | name | link |
 |  ----|----  |
 | HOOK Lib | https://github.com/Menooker/PFishHook |
