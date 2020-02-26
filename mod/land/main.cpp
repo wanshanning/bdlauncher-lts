@@ -234,10 +234,8 @@ void LDCommand::perm(mandatory<Perm> cmd, mandatory<int> perm) {
     return;
   }
 }
-void LDCommand::give(mandatory<Give> cmd, mandatory<CommandSelector<Player>> target) {
-  auto results = target.results(getOrigin());
-  if (!Command::checkHasTargets(results, getOutput())) return;
-  auto dst = getSP(*results.get());
+void LDCommand::give(mandatory<Give> cmd, mandatory<std::string> target) {
+  auto dst = getplayer_byname2(target);
   auto sp  = getSP(getOrigin().getEntity());
   if (sp && dst) {
     auto &pos = sp->getPos();
@@ -248,7 +246,7 @@ void LDCommand::give(mandatory<Give> cmd, mandatory<CommandSelector<Player>> tar
       dl.addOwner(dst->getNameTag(), true);
       dl.delOwner(sp->getNameTag());
       updLand(dl);
-      sendText(dst, "You get a land from " + sp->getNameTag());
+      sendText(dst, "§bYou get a land from " + sp->getNameTag());
       getOutput().success("§bSuccessfully give your territory to " + dst->getNameTag());
     } else {
       getOutput().error("No land here or not your land");

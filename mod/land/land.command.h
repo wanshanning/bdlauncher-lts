@@ -36,7 +36,7 @@ public:
   void trustgui(mandatory<Trustgui> cmd);
   void untrustgui(mandatory<Untrustgui> cmd);
   void perm(mandatory<Perm> cmd, mandatory<int> perm);
-  void give(mandatory<Give> cmd, mandatory<CommandSelector<Player>> target);
+  void give(mandatory<Give> cmd, mandatory<std::string> target);
 };
 
 // op

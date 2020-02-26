@@ -267,7 +267,7 @@ struct LDCommand_9 : Command {
 
 struct LDCommand_10 : Command {
   CommandParameterProxy<Give> cmd;
-  CommandParameterProxy<CommandSelector<Player>> target;
+  CommandParameterProxy<std::string> target;
   virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
     LDCommand context{origin, output};
     context.give(cmd, target);
@@ -418,7 +418,7 @@ void register_commands() {
     {
       auto &ovl = cmd.registerOverload<LDCommand_10>();
       ovl.addParameter<Give>("cmd", false, offsetof(LDCommand_10, cmd));
-      ovl.addParameter<CommandSelector<Player>>("target", false, offsetof(LDCommand_10, target));
+      ovl.addParameter<std::string>("target", false, offsetof(LDCommand_10, target));
     }
   }
   {
