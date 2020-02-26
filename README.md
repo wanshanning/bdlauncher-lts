@@ -19,9 +19,9 @@ QQ group: 955765957
 [Github Action](https://github.com/thirteenc13/bdlauncher/actions)
 
 ## License
-MIT with additional conditions   
-If you want to redistribute software in a commercial manner, please read LICENSE carefully   
-如果你要将本项目用于商业用途，请仔细阅读LICENSE。
+
+The MIT License
+[LICENSE of the original project](LICENSE_origin)
 
 ## Credits
 | name | link |
