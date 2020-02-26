@@ -20,7 +20,7 @@ QQ group: 955765957
 
 ## License
 
-The MIT License
+The MIT License  
 [LICENSE of the original project](LICENSE_origin)
 
 ## Credits
