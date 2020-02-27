@@ -25,7 +25,7 @@ class cleantime
 public:
     void clock()
     {
-        sec++;
+        // sec++;
         printf("sec=%d\n", sec);
         if(sec == 60)
         {
@@ -42,7 +42,7 @@ public:
 private:
     void run(int min)
     {
-        printf("run()\n");
+        // printf("run()\n");
         if(getPlayerCount() < 1) return;// not action when the player count less than 1
         if(min == 9)
         {
@@ -54,7 +54,7 @@ private:
 
     void clean()
     {
-        printf("clean()\n");
+        // printf("clean()\n");
         broadcastText("§a[MoeClean] Start cleanning items on the ground.");
         runcmd("kill @e[type=item]");
     }
