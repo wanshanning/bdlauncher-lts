@@ -42,7 +42,7 @@ public:
 private:
     void run(int min)
     {
-        if(getPlayerCount() > 5) return;// not action when the player count less than 5
+        if(getPlayerCount() > 1) return;// not action when the player count less than 1
         if(min == 9)
         {
             // printf("run()\n");
