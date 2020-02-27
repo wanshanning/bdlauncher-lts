@@ -30,7 +30,7 @@ public:
         if(sec == 60)
         {
             sec = 0;
-            min = 10;
+            min++;
             // printf("min=%d\n", min);
             run(min);
             if (min == 10)
