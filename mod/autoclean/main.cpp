@@ -33,7 +33,7 @@ public:
             min++;
             // printf("min=%d\n", min);
             run(min);
-            if (min == 60)
+            if (min == 10)
             {
                 min == 0;
             }
