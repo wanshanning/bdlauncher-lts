@@ -26,11 +26,11 @@ public:
     void clock()
     {
         sec++;
-        // printf("sec=%d\n", sec);
+        printf("sec=%d\n", sec);
         if(sec == 60)
         {
             sec = 0;
-            min++;
+            min = 10;
             // printf("min=%d\n", min);
             run(min);
             if (min == 10)
@@ -42,10 +42,10 @@ public:
 private:
     void run(int min)
     {
-        if(getPlayerCount() > 1) return;// not action when the player count less than 1
+        printf("run()\n");
+        if(getPlayerCount() < 1) return;// not action when the player count less than 1
         if(min == 9)
         {
-            // printf("run()\n");
             broadcastText("§a[MoeClean] I will clean items on the ground after 1 minute.");
             return;
         }
@@ -54,7 +54,7 @@ private:
 
     void clean()
     {
-        // printf("clean()\n");
+        printf("clean()\n");
         broadcastText("§a[MoeClean] Start cleanning items on the ground.");
         runcmd("kill @e[type=item]");
     }
