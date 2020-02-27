@@ -25,8 +25,8 @@ class cleantime
 public:
     void clock()
     {
-        // sec++;
-        printf("sec=%d\n", sec);
+        sec++;
+        // printf("sec=%d\n", sec);
         if(sec == 60)
         {
             sec = 0;
