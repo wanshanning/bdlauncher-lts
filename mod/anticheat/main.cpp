@@ -174,7 +174,7 @@ void ACCommand::ban(mandatory<Ban>, mandatory<string> target, optional<int> time
 }
 void ACCommand::unban(mandatory<Unban>, mandatory<string> target) {
   ban_data.Del(target);
-  getOutput().success();
+  getOutput().success("§bUnban " + target);
 }
 using std::unordered_set;
 static static_deque<short, 64> banitems, warnitems;
