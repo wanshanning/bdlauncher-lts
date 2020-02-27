@@ -35,7 +35,7 @@ public:
             run(min);
             if (min == 10)
             {
-                min == 0;
+                min = 0;
             }
         }
     }
