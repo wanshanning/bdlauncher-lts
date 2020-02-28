@@ -300,60 +300,102 @@ void TPACommand::CMDF(mandatory<CmdF> cmd, mandatory<std::string> target)
     return;
 } 
 
-static void oncmd_home(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
+//Home start
+
+void HOMECommand::HGO(mandatory<HomeGo> cmd, mandatory<std::string> name)
+{
   if (!CanHome) {
-    outp.error("Home not enabled on this server!");
+    getOutput().error("Home not enabled on this server!");
     return;
   }
-  ServerPlayer *sp = getSP(b.getEntity());
+  ServerPlayer *sp = getSP(getOrigin().getEntity());
   if (!sp) {
-    outp.error("this is a command for players");
+    getOutput().error("this is a command for players");
     return;
   }
-  Vec3 pos          = b.getWorldPosition();
-  ARGSZ(1)
-  if (a[0] == "add") {
-    ARGSZ(2)
-    home &myh = ply_homes[sp];
+  home &myh = ply_homes[sp];
+    for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) {
+      if (i->name == name) {
+        i->tele(*sp);
+        getOutput().success("§bTeleported you to home");
+      }
+    }
+}
+
+void HOMECommand::HADD(mandatory<HomeAdd> cmd, mandatory<std::string> name)
+{
+  if (!CanHome) {
+    getOutput().error("Home not enabled on this server!");
+    return;
+  }
+  ServerPlayer *sp = getSP(getOrigin().getEntity());
+  if (!sp) {
+    getOutput().error("this is a command for players");
+    return;
+  }
+  Vec3 pos = getOrigin().getWorldPosition();
+  home &myh = ply_homes[sp];
     if ((decltype(MaxHomes)) myh.vals.size() >= MaxHomes) {
-      outp.error("Can't add more homes");
+      getOutput().error("Can't add more homes");
       return;
     }
-    myh.vals.push_back(Vpos(pos.x, pos.y, pos.z, b.getEntity()->getDimensionId(), a[1]));
+    myh.vals.push_back(Vpos(pos.x, pos.y, pos.z, getOrigin().getEntity()->getDimensionId(), name));
     myh.save(*sp);
-    outp.success("§bSuccessfully added a home");
+    getOutput().success("§bSuccessfully added a home");
+}
+
+void HOMECommand::HDEL(mandatory<HomeDel> cmd, mandatory<std::string> name)
+{
+  if (!CanHome) {
+    getOutput().error("Home not enabled on this server!");
+    return;
   }
-  if (a[0] == "del") {
-    ARGSZ(2)
-    home &myh = ply_homes[sp];
+  ServerPlayer *sp = getSP(getOrigin().getEntity());
+  if (!sp) {
+    getOutput().error("this is a command for players");
+    return;
+  }
+  home &myh = ply_homes[sp];
     for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) {
-      if (i->name == a[1]) {
+      if (i->name == name) {
         myh.vals.erase(i);
-        outp.success("§bHome has been deleted");
+        getOutput().success("§bHome has been deleted");
         myh.save(*sp);
         return;
       }
     }
-    outp.error("not found");
+    getOutput().error("Home not found");
+}
+
+void HOMECommand::HLS(mandatory<HomeLs> cmd)
+{
+  if (!CanHome) {
+    getOutput().error("Home not enabled on this server!");
+    return;
   }
-  if (a[0] == "go") {
-    ARGSZ(2)
-    home &myh = ply_homes[sp];
-    for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) {
-      if (i->name == a[1]) {
-        i->tele(*sp);
-        outp.success("§bTeleported you to home");
-      }
-    }
+  ServerPlayer *sp = getSP(getOrigin().getEntity());
+  if (!sp) {
+    getOutput().error("this is a command for players");
+    return;
   }
-  if (a[0] == "ls") {
-    home &myh = ply_homes[sp];
-    outp.addMessage("§b==Home list==");
-    for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) outp.addMessage(i->name);
-    outp.success("§b==Home list==");
+  home &myh = ply_homes[sp];
+    getOutput().addMessage("§b==Home list==");
+    for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) getOutput().addMessage(i->name);
+    getOutput().success("§b==Home list==");
+}
+
+void HOMECommand::HGUI(mandatory<HomeGui> cmd)
+{
+  if (!CanHome) {
+    getOutput().error("Home not enabled on this server!");
+    return;
   }
-  if (a[0] == "gui") {
-    home &myh = ply_homes[sp];
+  ServerPlayer *sp = getSP(getOrigin().getEntity());
+  if (!sp) {
+    getOutput().error("this is a command for players");
+    return;
+  }
+  home &myh = ply_homes[sp];
     auto sf   = getForm("Home", "Please choose a home");
     for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) {
       auto &hname = i->name;
@@ -367,10 +409,21 @@ static void oncmd_home(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
       runcmdAs(sb.get(), sp);
     };
     sendForm(*sp, sf);
-    outp.success();
+    getOutput().success();
+}
+
+void HOMECommand::HDELGUI(mandatory<HomeDelGui> cmd)
+{
+  if (!CanHome) {
+    getOutput().error("Home not enabled on this server!");
+    return;
   }
-  if (a[0] == "delgui") {
-    home &myh = ply_homes[sp];
+  ServerPlayer *sp = getSP(getOrigin().getEntity());
+  if (!sp) {
+    getOutput().error("this is a command for players");
+    return;
+  }
+  home &myh = ply_homes[sp];
     auto sf   = getForm("Home", "Please choose a home to DELETE");
     for (auto i = myh.vals.begin(); i != myh.vals.end(); ++i) {
       auto &hname = i->name;
@@ -384,59 +437,67 @@ static void oncmd_home(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
       runcmdAs(sb.get(), sp);
     };
     sendForm(*sp, sf);
-    outp.success();
+    getOutput().success();
+}
+
+// Home end, Warp start
+
+void WARPCommand::WGO(mandatory<WarpGo> cmd, mandatory<std::string> name)
+{
+  auto it = warp.find(name);
+  if (it != warp.end()) {
+    it->second.tele(*getOrigin().getEntity());
+    getOutput().success("§bTeleported you to warp");
+    return;
   }
 }
-static void oncmd_warp(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
-  int pl = (int) b.getPermissionsLevel();
-  // do_log("pl %d",pl);
-  string name = b.getName();
-  Vec3 pos    = b.getWorldPosition();
-  ARGSZ(1)
-  if (a[0] == "add") {
-    if (pl < 1) return;
-    ARGSZ(2)
-    add_warp(pos.x, pos.y, pos.z, b.getEntity()->getDimensionId(), string(a[1]));
-    outp.success("§bSuccessfully added a warp");
-    return;
-  }
-  if (a[0] == "del") {
-    if (pl < 1) return;
-    ARGSZ(2)
-    del_warp(string(a[1]));
-    outp.success("§bSuccessfully deleted a Warp");
-    return;
-  }
-  if (a[0] == "ls") {
-    outp.addMessage("§b==Warp list==");
-    for (auto const &i : warp_list) { outp.addMessage(i); }
-    outp.success("§b==Warp list==");
-    return;
-  }
-  if (a[0] == "gui") {
-    auto sf = getForm("Warp", "Please choose a warp");
-    for (auto const &i : warp_list) {
-      auto &hname = i;
-      sf->addButton(hname);
+
+void WARPCommand::WADD(mandatory<WarpAdd> cmd, mandatory<std::string> name)
+{
+  int pl = (int) getOrigin().getPermissionsLevel();
+  Vec3 pos    = getOrigin().getWorldPosition();
+  if (pl < 1) return;
+  add_warp(pos.x, pos.y, pos.z, getOrigin().getEntity()->getDimensionId(), string(name));
+  getOutput().success("§bSuccessfully added a warp");
+  return;
+}
+
+void WARPCommand::WDEL(mandatory<WarpDel> cmd, mandatory<std::string> name)
+{
+  int pl = (int) getOrigin().getPermissionsLevel();
+  if (pl < 1) return;
+  del_warp(string(name));
+  getOutput().success("§bSuccessfully deleted a Warp");
+  return;
+}
+
+void WARPCommand::WLS(mandatory<WarpLs> cmd)
+{
+  getOutput().addMessage("§b==Warp list==");
+  for (auto const &i : warp_list) { getOutput().addMessage(i); }
+  getOutput().success("§b==Warp list==");
+  return;
+}
+
+void WARPCommand::WGUI(mandatory<WarpGUI> cmd)
+{
+  auto sf = getForm("Warp", "Please choose a warp");
+  for (auto const &i : warp_list) {
+    auto &hname = i;
+    sf->addButton(hname);
     }
     sf->cb = [](ServerPlayer *sp, string_view sv, int idx) {
       SPBuf<512> sb;
-      sb.write("warp \"");
+      sb.write("warp go \"");
       sb.write(sv);
       sb.write("\"");
       runcmdAs(sb.get(), sp);
     };
-    sendForm(*(ServerPlayer *) b.getEntity(), sf);
-    outp.success();
-  }
-  // go
-  auto it = warp.find(string(a[0]));
-  if (it != warp.end()) {
-    it->second.tele(*b.getEntity());
-    outp.success("§bTeleported you to warp");
-    return;
-  }
+    sendForm(*(ServerPlayer *) getOrigin().getEntity(), sf);
+    getOutput().success();
 }
+
+// Warp end
 
 static unordered_map<string, pair<Vec3, int>> deathpoint;
 static void oncmd_back(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
@@ -510,8 +571,6 @@ void mod_init(std::list<string> &modlist) {
   load_cfg();
   initTPGUI();
   register_cmd("suicide", oncmd_suic, "kill yourself");
-  register_cmd("home", oncmd_home, "home command");
-  register_cmd("warp", oncmd_warp, "warp command");
   register_cmd("back", oncmd_back, "back to deathpoint");
   reg_mobdie(handle_mobdie);
   register_commands();
