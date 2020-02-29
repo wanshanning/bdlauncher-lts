@@ -428,6 +428,17 @@ static bool handle_popitem(ServerPlayer &sp, BlockPos &bpos) {
     return 0;
   }
 }
+THook(void*,"_ZNK14ItemFrameBlock6attackEP6PlayerRK8BlockPos",void* a0,ServerPlayer& sp,BlockPos& bpos){
+  if (isOp(&sp)) return 1;
+  int x(bpos.x), z(bpos.z), dim(sp.getDimensionId());
+  FastLand *fl = getFastLand(x, z, dim);
+  if (!fl || fl->hasPerm(sp.getNameTag(), PERM_POPITEM)) {
+    return 1;
+  } else {
+    NoticePerm(fl, &sp);
+    return 0;
+  }
+}
 
 #ifdef LAND_TIP_CRASH
 static unordered_map<string, string> lastland;
