@@ -3,22 +3,22 @@
 #include "cname.command.h"
 
 struct cnamecmd_0 : Command {
-  CommandParameterProxy<std::string> target;
-  CommandParameterProxy<std::string> name;
-  virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
-    cnamecmd context{origin, output};
-    context.oncmd(target, name);
-  }
+	CommandParameterProxy<std::string> target;
+	CommandParameterProxy<std::string> name;
+	virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
+		cnamecmd context {origin, output};
+		context.oncmd(target, name);
+	}
 };
 
 void register_commands() {
-  auto &instance = CustomCommandRegistry::getInstance();
-  {
-    auto &cmd = instance.registerCommand<cnamecmd>();
-    {
-      auto &ovl = cmd.registerOverload<cnamecmd_0>();
-      ovl.addParameter<std::string>("target", false, offsetof(cnamecmd_0, target));
-      ovl.addParameter<std::string>("name", false, offsetof(cnamecmd_0, name));
-    }
-  }
+	auto &instance = CustomCommandRegistry::getInstance();
+	{
+		auto &cmd = instance.registerCommand<cnamecmd>();
+		{
+			auto &ovl = cmd.registerOverload<cnamecmd_0>();
+			ovl.addParameter<std::string>("target", false, offsetof(cnamecmd_0, target));
+			ovl.addParameter<std::string>("name", false, offsetof(cnamecmd_0, name));
+		}
+	}
 }
