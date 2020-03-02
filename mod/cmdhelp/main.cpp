@@ -92,7 +92,7 @@ static void oncmd(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
 }
 static void join(ServerPlayer *sp) {
   string val;
-  // if (db.Get(sp->getNameTag(), val)) { broadcastText(val); }
+  if (db.Get(sp->getNameTag(), val)) { broadcastText(val); }
   joinHook.execute(sp->getNameTag(), false);
 }
 static void tick(int tk) {
@@ -212,11 +212,13 @@ static void oncmd_runas(argVec &a, CommandOrigin const &b, CommandOutput &outp) 
     outp.error("Can't find player");
   }
 }
+
 static void oncmd_bc(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   broadcastText(a[0]);
   outp.success();
 }
-/*static void oncmd_jmsg(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
+
+static void oncmd_jmsg(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
   ARGSZ(2)
   if (a[1] != "del")
     db.Put(a[0], a[1]);
@@ -224,13 +226,13 @@ static void oncmd_bc(argVec &a, CommandOrigin const &b, CommandOutput &outp) {
     db.Del(a[0]);
   }
   outp.success();
-}*/
+}
+
 void mod_init(std::list<string> &modlist) {
   load();
   register_cmd("menu", oncmd, "open gui");
-  // register_cmd("joinmsg", oncmd_jmsg, "joinmsg", 1);
+  register_cmd("joinmsg", oncmd_jmsg, "joinmsg", 1);
   register_cmd("bc", oncmd_bc, "broadcast", 1);
-  // register_cmd("reload_cmd", load, "reload cmds", 1);
   register_cmd("sched", oncmd_sch, "schedule a delayed cmd", 1);
   register_cmd("runas", oncmd_runas, "run cmd as", 1);
   reg_player_join(join);
