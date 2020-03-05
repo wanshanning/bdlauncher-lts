@@ -1,5 +1,7 @@
 # bdlauncher-life
 
+![C/C++ CI](https://github.com/ShrBox/bdlauncher-life/workflows/C/C++%20CI/badge.svg?branch=master)
+
 Bedrock server launcher with plugin support  
 This project has nothing to do with mojang and Microsoft  
 Bedrock server 1.14 is currently supported  
