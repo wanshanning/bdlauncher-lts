@@ -2,6 +2,7 @@
 #include <cmdhelper.h>
 #include <myhook.h>
 #include <Loader.h>
+//#include <MC.h>
 #include <vector>
 #include <seral.hpp>
 #include <signal.h>
@@ -51,6 +52,12 @@ BDL_EXPORT Minecraft *MC;
 BDL_EXPORT Level *ServLevel;
 }
 
+struct DedicatedServer {
+  void stop();
+};
+
+DedicatedServer *dserver;
+int lvlCorrupt;
 THook(void *, _ZN14ServerInstance14onLevelCorruptEv, void *x) {
   printf("LEVEL CORRUPT DETECTED!!!\n");
   string payload;
@@ -66,9 +73,16 @@ THook(void *, _ZN14ServerInstance14onLevelCorruptEv, void *x) {
   char buf[1024];
   auto TIM = time(0);
   strftime(buf, 1024, "Crash-%Y-%m-%d_%H_%M_%S.txt", localtime(&TIM));
+  if(lvlCorrupt==0){
   FILE *fp = fopen(buf, "w");
   fwrite(payload.data(), payload.size(), 1, fp);
   fclose(fp);
+  }
+  do_log("stoping server");
+  dserver->stop();
+  if(++lvlCorrupt>3){
+   exit(1);   
+  }
   return nullptr;
 }
 
@@ -276,11 +290,6 @@ THook(
   return ret;
 }
 
-struct DedicatedServer {
-  void stop();
-};
-
-DedicatedServer *dserver;
 THook(
     void *, _ZN15DedicatedServer5startERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE, DedicatedServer *t,
     string &b) {
