@@ -86,6 +86,18 @@ static constexpr auto enum_name = "Reloadcfg";
 operator Reloadcfg() const noexcept { return value; }
 };
 
+template <> class BDL::CustomCommand::CommandParameterProxy<OpQuery> {
+	OpQuery value;
+
+public:
+static auto fetch_tid() { return type_id<CommandRegistry, OpQuery>(); }
+static constexpr auto parser = &CommandRegistry::fake_parse;
+static constexpr auto type = CommandParameterDataType::NORMAL;
+static constexpr auto enum_name = "OpQuery";
+
+operator OpQuery() const noexcept { return value; }
+};
+
 struct MoneyCommand_0 : Command {
 	CommandParameterProxy<Query> cmd;
 	virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
@@ -113,6 +125,15 @@ struct MoneyCommand_2 : Command {
 };
 
 struct MoneyOP_0 : Command {
+	CommandParameterProxy<OpQuery> cmd;
+	CommandParameterProxy<std::string> target;
+	virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
+		MoneyOP context {origin, output};
+		context.OPQUERY(cmd, target);
+	}
+};
+
+struct MoneyOP_1 : Command {
 	CommandParameterProxy<Add> cmd;
 	CommandParameterProxy<std::string> target;
 	CommandParameterProxy<int> count;
@@ -122,7 +143,7 @@ struct MoneyOP_0 : Command {
 	}
 };
 
-struct MoneyOP_1 : Command {
+struct MoneyOP_2 : Command {
 	CommandParameterProxy<Reduce> cmd;
 	CommandParameterProxy<std::string> target;
 	CommandParameterProxy<int> count;
@@ -132,7 +153,7 @@ struct MoneyOP_1 : Command {
 	}
 };
 
-struct MoneyOP_2 : Command {
+struct MoneyOP_3 : Command {
 	CommandParameterProxy<Set> cmd;
 	CommandParameterProxy<std::string> target;
 	CommandParameterProxy<int> count;
@@ -142,7 +163,7 @@ struct MoneyOP_2 : Command {
 	}
 };
 
-struct MoneyOP_3 : Command {
+struct MoneyOP_4 : Command {
 	CommandParameterProxy<Reloadcfg> cmd;
 	virtual void execute(CommandOrigin const &origin, CommandOutput &output) override {
 		MoneyOP context {origin, output};
@@ -181,6 +202,10 @@ void register_commands() {
 		item.addValue("reload", Reloadcfg::reload);
 	}
 	{
+		auto &item = instance.registerEnum<OpQuery>();
+		item.addValue("query", OpQuery::query);
+	}
+	{
 		auto &cmd = instance.registerCommand<MoneyCommand>();
 		{
 			auto &ovl = cmd.registerOverload<MoneyCommand_0>();
@@ -201,25 +226,30 @@ void register_commands() {
 		auto &cmd = instance.registerCommand<MoneyOP>();
 		{
 			auto &ovl = cmd.registerOverload<MoneyOP_0>();
-			ovl.addParameter<Add>("cmd", false, offsetof(MoneyOP_0, cmd));
+			ovl.addParameter<OpQuery>("cmd", false, offsetof(MoneyOP_0, cmd));
 			ovl.addParameter<std::string>("target", false, offsetof(MoneyOP_0, target));
-			ovl.addParameter<int>("count", false, offsetof(MoneyOP_0, count));
 		}
 		{
 			auto &ovl = cmd.registerOverload<MoneyOP_1>();
-			ovl.addParameter<Reduce>("cmd", false, offsetof(MoneyOP_1, cmd));
+			ovl.addParameter<Add>("cmd", false, offsetof(MoneyOP_1, cmd));
 			ovl.addParameter<std::string>("target", false, offsetof(MoneyOP_1, target));
 			ovl.addParameter<int>("count", false, offsetof(MoneyOP_1, count));
 		}
 		{
 			auto &ovl = cmd.registerOverload<MoneyOP_2>();
-			ovl.addParameter<Set>("cmd", false, offsetof(MoneyOP_2, cmd));
+			ovl.addParameter<Reduce>("cmd", false, offsetof(MoneyOP_2, cmd));
 			ovl.addParameter<std::string>("target", false, offsetof(MoneyOP_2, target));
 			ovl.addParameter<int>("count", false, offsetof(MoneyOP_2, count));
 		}
 		{
 			auto &ovl = cmd.registerOverload<MoneyOP_3>();
-			ovl.addParameter<Reloadcfg>("cmd", false, offsetof(MoneyOP_3, cmd));
+			ovl.addParameter<Set>("cmd", false, offsetof(MoneyOP_3, cmd));
+			ovl.addParameter<std::string>("target", false, offsetof(MoneyOP_3, target));
+			ovl.addParameter<int>("count", false, offsetof(MoneyOP_3, count));
+		}
+		{
+			auto &ovl = cmd.registerOverload<MoneyOP_4>();
+			ovl.addParameter<Reloadcfg>("cmd", false, offsetof(MoneyOP_4, cmd));
 		}
 	}
 }

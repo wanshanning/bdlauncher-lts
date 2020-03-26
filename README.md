@@ -1,4 +1,4 @@
-# bdlauncher-life
+# bdlauncher-lts
 
 ![C/C++ CI](https://github.com/ShrBox/bdlauncher-life/workflows/C/C++%20CI/badge.svg?branch=master)
 
@@ -14,11 +14,11 @@ QQ group: 955765957
 
 ## Docs
 
-[Github Wiki](https://github.com/thirteenc13/bdlauncher/wiki)
+[Github Wiki](https://github.com/ShrBox/bdlauncher-lts/wiki)
 
 ## Prebuilt binary
 
-[Github Action](https://github.com/thirteenc13/bdlauncher/actions)
+[Github Action](https://github.com/ShrBox/bdlauncher-lts/actions)
 
 ## License
 
