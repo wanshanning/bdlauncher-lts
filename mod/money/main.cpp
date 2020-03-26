@@ -127,6 +127,14 @@ void MoneyCommand::paygui(mandatory<Paygui> cmd)
   getOutput().success();
 }
 
+void MoneyOP::OPQUERY(mandatory<OpQuery> cmd, mandatory<std::string> target)
+{
+  char msg[1024];
+  snprintf(msg, 1024, "§b%s has %d money", target.c_str(), get_money(target));
+  getOutput().addMessage(string(msg));
+  getOutput().success("");
+}
+
 void MoneyOP::add(mandatory<Add> cmd, mandatory<std::string> target, mandatory<int> count)
 {
   // int amo;

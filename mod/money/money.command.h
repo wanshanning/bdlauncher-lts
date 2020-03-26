@@ -27,6 +27,7 @@ enum class Add { add };
 enum class Reduce { reduce };
 enum class Set { set };
 enum class Reloadcfg { reload };
+enum class OpQuery { query };
 
 struct MoneyOP : CustomCommandContext
 {
@@ -37,6 +38,7 @@ public:
 
     MoneyOP(CommandOrigin const &origin, CommandOutput &output) noexcept : CustomCommandContext(origin, output) {}
 
+    void OPQUERY(mandatory<OpQuery> cmd, mandatory<std::string> target);
     void add(mandatory<Add> cmd, mandatory<std::string> target, mandatory<int> count);
     void reduce(mandatory<Reduce> cmd, mandatory<std::string> target, mandatory<int> count);
     void set(mandatory<Set> cmd, mandatory<std::string> target, mandatory<int> count);
