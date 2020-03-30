@@ -1,0 +1,26 @@
+name: C/C++ CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        mode: [DEBUG, RELEASE]
+
+    runs-on: ubuntu-latest
+    container: archlinuxrolling/base:latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install dependencies
+      run: |
+        pacman -Syu --noconfirm --needed base-devel gcc make clang readline python python-pip
+        pip install ply
+    - name: "make install (Mode: ${{ matrix.mode }})"
+      run: make install ${{ matrix.mode }}=1 DESTDIR=dist-${{ matrix.mode }}
+    - name: Upload artifact dist-${{ matrix.mode }}
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: dist-${{ matrix.mode }}
+        path: dist-${{ matrix.mode }}
