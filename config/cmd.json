@@ -1,62 +1,197 @@
 [
     {
         "type":"timer",
-        "time":4800,"shift":0,
-        "cmd":"bc \"§7You are playing on a bdlauncher server\", bc \"§7Our telegram group: @bdlauncher\", bc \"§7It's a cool server\""
+        "time":5000,"shift":10,
+        "cmd":"say timer!"
     },
 
     {
         "type":"join",
-        "cmd":"title %name% title §aWelcome to the server"
+        "cmd":"sched 10 %name% \"say §b $name$ 加入了此服务器\""
     },
 
     {
         "type":"form",
-        "text":"Use the clock to quick open the menu",
-        "title":"Main menu",
+        "text":"选择一个选项",
+        "title":"游戏菜单",
         "name":"root",
         "buttons":[
-		    ["Get a clock", "give %name% clock", ""],
-            ["Open land menu", "runas %name% menu land", ""],
-			["Open money menu", "runas %name% menu money", ""],
-			["Open teleport menu", "runas %name% menu teleport", ""]
-	    ]
-    }, 
+            ["§l§6家园选项","runas %name% c home","tell %name% 打开家园菜单"],
+            ["§l§3打开商店","execute %name% ~ ~ ~ c shop","tell %name% 打开了商店"],
+            ["§l§1传送","tell %name% 在接下来的窗口中选择一个人","runas %name% c tp"],
+            ["§l§4财富管理","tell %name% 管理你的财富","runas %name% c money"]]
+    },
 
     {
         "type":"form",   
-        "text":"",
-        "title":"Land menu",
+        "text":"商店-点击即可购买，货币可以通过菜单兑换",
+        "title":"商店",
+        "name":"shop",
+        "buttons":[
+        	["2附魔金苹果 ￥1200","money rd %name% 600","give %name% appleenchamted 2"],
+        	["熟食","tell %name% 选择一个熟食","runas %name% c foods"],
+        	["一组木板 ￥300","tell %name% 请选择木板种类","runas %name% c shop_planks"],
+        	["两组羊毛 ￥16","tell %name% 请选择羊毛颜色","runas %name% c shop_wool"],
+        	["[下矿必备]32火把 ￥32","money rd %name% 32","give %name% torch 32"],
+        	["1鞘翅 ￥50000","money rd %name% 50000","give %name% elytra"],
+        	["返回上一级","","execute %name% ~ ~ ~ c root"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"帮助：分别走到对角线AB两端点，选择‘选定A/B点’并点击A/B点地面，完成后点击’买地‘即可；价格：每个方块/元；",
+        "title":"圈地菜单",
         "name":"land",
         "buttons":[
-			["Query owner of the land", "runas %name% land query", ""],
-			["trust a player", "runas %name% land trustgui", ""],
-			["untrust a player", "runas %name% land untrustgui", ""],
-			["sell your land", "tell %name% Type /land sell to sell your land", ""]
-		]
+        	["选定A点","runas %name% land a","tell %name 点击起始点地面"],
+        	["选定B点","runas %name% land b","tell %name 点击结束点地面"],
+        	["退出选地","runas %name% land exit","tell %name 已退出"],
+        	["买地","runas %name% land buy","tell %name% 正在购买地皮"],
+        	["卖地","runas %name% land sell","tell %name 出售中"],
+        	["设置设置信任者","runas %name% land trustgui","tell %name 添加完成"],
+        	["权限管理","runas %name% c land_perm","tell %name 管理其他人在你的领地的权限"],
+        	["返回上一级","","execute %name% ~ ~ ~ c home"]]
     },
-	
+    
     {
         "type":"form",   
-        "text":"",
-        "title":"Money menu",
+        "text":"设置其他玩家在你的领地的权限",
+        "title":"领地权限管理",
+        "name":"land_perm",
+        "buttons":[
+        	["[2]可以使用方块","runas %name% land perm 2","tell %name 设置成功"],
+        	["[4]可以攻击生物（包括你）","runas %name% land perm 4","tell %name 设置成功"],
+        	["[8]可以建造/破坏","runas %name% land perm 8","tell %name 设置成功"],
+        	["[16]可以更改你的物品展示框","runas %name% land perm 16","tell %name 设置成功"],
+        	["[32]可以与你的盔甲架等进行交互","runas %name% land perm 32","tell %name 设置成功"],
+        	["[6]可以使用方块,攻击生物（包括你）","runas %name% land perm 6","tell %name 设置成功"],
+        	["[10]可以使用方块,建造/破坏","runas %name% land perm 10","tell %name 设置成功"],
+        	["[18]可以使用方块,更改你的物品展示框","runas %name% land perm 18","tell %name 设置成功"],
+        	["[34]可以使用方块,与你的盔甲架等进行交互,","runas %name% land perm 34","tell %name 设置成功"],
+        	["[14]可以使用方块,攻击生物，建造/破坏","runas %name% land perm 14","tell %name 设置成功"],
+        	["[30]可以使用方块,攻击生物，建造/破坏,更改你的物品展示框","runas %name% land perm 30","tell %name 设置成功"],
+        	["[46]可以使用方块,攻击生物，建造/破坏,与你的盔甲架等进行交互","runas %name% land perm 46","tell %name 设置成功"],
+        	["[12]可以攻击生物（包括你），建造/破坏","runas %name% land perm 12","tell %name 设置成功"],
+        	["[20]可以攻击生物（包括你），更改你的物品展示框","runas %name% land perm 20","tell %name 设置成功"],
+        	["[36]可以攻击生物（包括你），与你的盔甲架等进行交互","runas %name% land perm 36","tell %name 设置成功"],
+        	["[24]可以建造/破坏，更改你的物品展示框","runas %name% land perm 24","tell %name 设置成功"],
+        	["[40]可以建造/破坏，与你的盔甲架等进行交互","runas %name% land perm 40","tell %name 设置成功"],
+        	["[16]可以更改你的物品展示框，与你的盔甲架等进行交互","runas %name% land perm 48","tell %name 设置成功"],
+        	["[62]可以拥有所有权限","runas %name% land perm 62","tell %name 设置成功"],
+        	["返回上一级","","execute %name% ~ ~ ~ c land"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"帮助：输入/home add [你家的名字] 即可设置你家的传送点；输入/home del [你家的名字]即可删除一个传送点",
+        "title":"家园菜单",
+        "name":"home",
+        "buttons":[
+        	["设家-主家园","runas %name% home add 主家","tell %name 设置成功-主家"],
+        	["删家-主家园","runas %name% home del 主家","tell %name 删除成功-主家"],
+        	["回家","runas %name% home gui","tell %name 打开回家传送菜单"],
+        	["圈地","runas %name% c land","tell %name 打开圈地菜单"],
+        	["返回上一级","","execute %name% ~ ~ ~ c root"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"在这里可以兑换游戏商店所用的货币",
+        "title":"货币兑换",
+        "name":"getmoney",
+        "buttons":[
+        	["32煤炭=￥260","clear %name% coal 0 32","money add %name% 260"],
+        	["返回上一级","","execute %name% ~ ~ ~ c root"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"管理你的财富",
+        "title":"财富管理",
         "name":"money",
         "buttons":[
-			["Query your money", "runas %name% money query", ""],
-			["Transfer money to a player", "runas %name% money paygui", ""]
-		]
+        	["财富查询","tell %name% 查询中","runas %name% money query"],
+        	["货币兑换","tell %name% 获取货币","runas %name% c getmoney"],
+        	["返回上一级","","execute %name% ~ ~ ~ c root"]]
     },
-	
+    
     {
         "type":"form",   
-        "text":"If you want to add a home\nYou can type /home add [name]",
-        "title":"Teleport menu",
-        "name":"teleport",
+        "text":"选择一个传送方式",
+        "title":"传送菜单",
+        "name":"tp",
         "buttons":[
-			["Send a teleport request to a player", "runas %name% tpa gui", ""],
-			["Go home", "runas %name% home gui", ""],
-			["Server's warp", "runas %name% warp gui", ""]
-		]
+        	["到地点","tell %name% 选择一个地点来传送","runas %name% c tp_place"],
+        	["到人","tell %name% 选择一个人来传送","runas %name% tpa gui"],
+        	["返回上一级","","execute %name% ~ ~ ~ c root"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"选择一个传送方式",
+        "title":"传送菜单",
+        "name":"tp_place",
+        "buttons":[
+        	["出生点","tell %name% 正在传送你到出生点","tp %name% 0 71 0"],
+        	["猪人塔","tell %name% 正在传送你到猪人塔","tp %name% -293 103 514 facing -293 105 517"],
+        	["返回上一级","","runas %name% c tp"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"选择一个熟食",
+        "title":"熟食菜单",
+        "name":"foods",
+        "buttons":[
+        	["6烤马铃薯 ￥32","monney rd %name% 32","give %name% baked_potato"],
+        	["3猪排 ￥30","monney rd %name% 30","give %name% cooked_porkchop 3"],
+        	["3牛排 ￥27","monney rd %name% 27","give %name% cooked_beef 3"],
+        	["3羊排 ￥24","monney rd %name% 24","give %name% mottoncooked 3"],
+        	["3鸡排 ￥24","monney rd %name% 24","give %name% cooked_chicken 3"],
+        	["3兔排 ￥24","monney rd %name% 24","give %name% cooked_rabbit 3"],
+        	["3鳕鱼排 ￥24","monney rd %name% 24","give %name% cooked_fish 3"],
+        	["3鲑鱼排 ￥24","monney rd %name% 24","give %name% cooked_salmon 3"],
+        	["返回上一级","","runas %name% c shop"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"选择你所要购买羊毛的颜色",
+        "title":"购买羊毛",
+        "name":"shop_wool",
+        "buttons":[
+        	["§l§f白色","money rd %name% 160","give %name% wool 64 0"],
+        	["§l§6橙色","money rd %name% 160","give %name% wool 64 1"],
+        	["§l§5紫红色","money rd %name% 160","give %name% wool 64 2"],
+        	["§l§b天蓝色","money rd %name% 160","give %name% wool 64 3"],
+        	["§l§e黄色","money rd %name% 160","give %name% wool 64 4"],
+        	["§l§g黄绿色","money rd %name% 160","give %name% wool 64 5"],
+        	["§l§粉红色","money rd %name% 160","give %name% wool 64 6"],
+        	["§l§7灰色","money rd %name% 160","give %name% wool 64 7"],
+        	["§l§8淡灰色","money rd %name% 160","give %name% wool 64 8"],
+        	["§l§3青色","money rd %name% 160","give %name% wool 64 9"],
+        	["§l§9紫色","money rd %name% 160","give %name% wool 64 10"],
+        	["§l§1蓝色","money rd %name% 160","give %name% wool 64 11"],
+        	["§l棕色","money rd %name% 160","give %name% wool 64 12"],
+        	["§l§2绿色","money rd %name% 160","give %name% wool 64 13"],
+        	["§l§4红色","money rd %name% 160","give %name% wool 64 14"],
+        	["§l§0黑色","money rd %name% 160","give %name% wool 64 15"],
+        	["返回上一级","","runas %name% c shop"]]
+    },
+    
+    {
+        "type":"form",   
+        "text":"选择你所要购买木板的类型",
+        "title":"购买木板",
+        "name":"shop_planks",
+        "buttons":[
+        	["橡木","money rd %name% 300","give %name% planks 64 0"],
+        	["云杉木","money rd %name% 300","give %name% planks 64 1"],
+        	["白桦木","money rd %name% 300","give %name% planks 64 2"],
+        	["丛林木","money rd %name% 300","give %name% planks 64 3"],
+        	["金合欢木","money rd %name% 300","give %name% planks 64 4"],
+        	["深色橡木","money rd %name% 300","give %name% planks 64 5"],
+        	["返回上一级","","runas %name% c shop"]]
     },
     
     {
